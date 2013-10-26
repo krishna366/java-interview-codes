@@ -2,18 +2,28 @@ package recursionndynamicprogramming;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 public class SubSet {
 
 	public static void main(String[] args) {
-		List<ArrayList<Integer>> powerSet = new ArrayList<ArrayList<Integer>>();
-		List<Integer> set = Arrays.asList(1, 2, 3, 6, 4, 8);
-		powerSet = getSubSets(set, 0);
+		// List<ArrayList<Integer>> powerSet = new
+		// ArrayList<ArrayList<Integer>>();
+		// List<Integer> set = Arrays.asList(1, 2, 3, 6, 4, 8);
+		// powerSet = getSubSets(set, 0);
+		//
+		// for (ArrayList a : powerSet) {
+		// System.out.println(Arrays.toString(a.toArray()));
+		// }
 
-		for (ArrayList a : powerSet) {
-			System.out.println(Arrays.toString(a.toArray()));
-		}
+		Set<String> result = gSets("123456");
+		System.out.println(result.toString());
+		System.out.println(result.size());
 
 	}
 
@@ -26,9 +36,9 @@ public class SubSet {
 			allSubSets.add(emptySet);
 		} else {
 			allSubSets = getSubSets(set, i + 1);
-			ArrayList<ArrayList<Integer>>moreSubSets = new ArrayList<ArrayList<Integer>>();
+			ArrayList<ArrayList<Integer>> moreSubSets = new ArrayList<ArrayList<Integer>>();
 			for (ArrayList<Integer> s : allSubSets) {
-				
+
 				ArrayList<Integer> moreSets = new ArrayList<Integer>();
 				moreSets.addAll(s);
 				moreSets.add(set.get(i));
@@ -60,6 +70,26 @@ public class SubSet {
 		}
 
 		return allsubsets;
+	}
+
+	static Set<String> allSets = new TreeSet<String>();
+
+	static Set<String> gSets(String input) {
+		if (input.length() == 0) {
+			allSets.add("");
+			return allSets;
+		}
+		char ch = input.charAt(0);
+		String rest = input.substring(1);
+		Set<String> temp = gSets(rest);
+
+		Set<String> moreSets = new HashSet<String>();
+		for (String s : temp) {
+			moreSets.add(new String(s + ch));
+		}
+		allSets.addAll(moreSets);
+		return allSets;
+
 	}
 
 }

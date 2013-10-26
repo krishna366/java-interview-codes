@@ -36,6 +36,12 @@ public class BitPlay {
 
 	public static void main(String[] args) {
 
-		swap(98,5,2,4);
+		//swap(98,5,2,4);
+		System.out.println(1<<68);
+		for(int i=0;i<31;i++){
+			System.out.println(Integer.toBinaryString(1<<i));
+	
+		}
+		
 	}
 }

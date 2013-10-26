@@ -54,7 +54,7 @@ public class QuickSort {
 	}
 	
    public static void main(String[] args) {
-	int a[]={1,4,3,12,8,6,9,0};
+	int a[]={1,4,3,12,8,4,6,9,0};
 	QuickSort q =new QuickSort(a);
 	q.print();
 }   

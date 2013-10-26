@@ -80,7 +80,10 @@ public class Permutations {
 	public static void main(String[] args) {
 				ArrayList<String> p = getPerms("monkey");
 		
-			//System.out.println(Arrays.toString(p.toArray()))	;
+			System.out.println(Arrays.toString(p.toArray()))	;
+			
+			String a="c";
+			
 
 		//permutation("monkey");
 

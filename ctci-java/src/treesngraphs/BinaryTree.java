@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class BinaryTree<T extends Comparable<?>> {
 	Node<T> root;
@@ -103,7 +104,9 @@ public class BinaryTree<T extends Comparable<?>> {
 		//printAllPaths(root1,0,paths);
 
 		//	printSumPaths(root1,0,paths,0,7);
-		printAllSumPathsOptimal(root1,0,paths,7);
+		//printAllSumPathsOptimal(root1,0,paths,7);
+		
+		levelTraverselTwoQ(root1);
 
 		// List<List<Node<Integer>>> result1=levelTraversal(root1);
 		// for(List<Node<Integer>>l:result1){
@@ -278,6 +281,35 @@ public class BinaryTree<T extends Comparable<?>> {
 		return result;
 
 	}
+	
+	public static void levelTraverselTwoQ(Node<Integer> root){
+		Queue<Node> q1 = new LinkedList<Node>();
+		Queue<Node> q2 = new LinkedList<Node>();
+		q1.add(root);
+		while(q1.size()!=0){
+			func(q1,q2);
+			Queue temp;
+			temp=q1;
+			q1=q2;
+			q2=temp;
+		}
+		
+	}
+	
+	static void func(Queue q1,Queue q2){
+		while(q1.size()!=0){
+			Node element=(Node) q1.remove();
+			System.out.print(element.data);
+			if(element.left!=null)
+			q2.add(element.left);
+			if(element.right!=null)
+			q2.add(element.right);
+			
+			
+		}
+		System.out.println();
+		
+	}
 
 	public static Node<Integer> inorderSuccessor(PNode<Integer> node) {
 		if (node == null)
@@ -321,7 +353,7 @@ public class BinaryTree<T extends Comparable<?>> {
 		int left = commonAncestor(a, b, root.left);
 		int right = commonAncestor(a, b, root.right);
 
-		if ((root == a || root == b) && (left == 1 || right == 1)) {
+		if ((root == a || root == b) && (left == 1 || right == 1)) { //found one node 
 			return 2;
 		} else if (root == a || root == b)
 			return 1;
@@ -469,7 +501,46 @@ public class BinaryTree<T extends Comparable<?>> {
 			System.out.print(paths[i] + ",");
 		System.out.println();
 	}
+
+  
+  //optimized O(N)
+	public static int[] getDiameter(Node root) {
+	    int[] result = new int[]{0,0};    //1st element: diameter, 2nd: height    
+	    if (root == null)  return result;
+	    int[] leftResult = getDiameter(root.getLeft());
+	    int[] rightResult = getDiameter(root.getLeft());
+	    int height = Math.max(leftResult[1], rightResult[1]) + 1;
+	    int rootDiameter = leftResult[1] + rightResult[1] + 1;
+	    int leftDiameter = leftResult[0];
+	    int rightDiameter = rightResult[0];
+	    result[0] = Math.max(rootDiameter, Math.max(leftDiameter, rightDiameter));
+	    result[1] = height;
+
+	    return result;
+	}
+	
+	
+	 //unoptimized
+		private static int diameter(Node root){
+			
+			if(root==null){
+				return 0;
+			}
+			
+		int lh= height(root.left);
+		int rh = height(root.right);
+		int ldiameter = diameter(root.left);
+		int rdiameter = diameter(root.right);
+		
+		return Math.max(Math.max(lh, rh),Math.max(ldiameter, rdiameter));
+		
+		}
+
+	
+
 }
+
+
 
 class PNode<T extends Comparable<?>> extends Node<T> {
 	public PNode(T data) {

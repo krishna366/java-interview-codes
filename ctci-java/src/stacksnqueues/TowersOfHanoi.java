@@ -39,6 +39,7 @@ public class TowersOfHanoi {
 
 		if(n==1)
 		{
+			System.out.println("never here");
 			Disc d =origin.pop();
 			destination.push(d);
 			return;
