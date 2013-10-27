@@ -44,71 +44,6 @@ public class LinkedLIstExercises {
 		// Node<Integer> head = addLists(sl.root,sl1.root,0);
 		// SingleLinkedList.print(head);
 
-		sl1.print();
-		// reverse1k(sl1.root, 3);
-		reversek(sl1.root, 3);
-		sl1.print();
-
-	}
-
-	// [9],[8],[5],[5],[8],[9],[1],[2],[3],
-	private static Node reversek(Node root, int k) {
-
-		// Node print = root;
-		// while (print != null) {
-		// System.out.print(print.data + "->");
-		// print = print.next;
-		// }
-		// System.out.println();
-		Node prev = null, curr = root, next = root;
-		int count = 0;
-		while (curr != null && count < k) {
-			System.out.println();
-			next = curr.next;
-			curr.next = prev;
-			prev = curr;
-			curr = next;
-
-			count++;
-			System.out.format("prev:%d curr %d next:%d count:%d",
-					prev == null ? -1 : prev.data, curr == null ? -1
-							: curr.data, next == null ? -1 : next.data, count);
-		}
-		if (next != null)
-			root.next = reversek(curr, k);
-		return prev;
-	}
-
-	// 1 - ------ k swap 1 and k
-	// [9],[8],[5],[5],[8],[9],[1],[2],[3],
-	private static Node reverse1k(Node<Integer> root, int k) {
-
-		if (root == null)
-			return root;
-		// Node print=root;
-		// while(print!=null) {
-		// System.out.print(print.data+"->");
-		// print=print.next;
-		// }
-		// System.out.println();
-		Node prev = null, curr = root, next = null;
-		int count = 0;
-		while (curr != null && count < k) {
-			next = curr.next;
-			// curr.next = prev;
-			prev = curr;
-			curr = next;
-			count++;
-		}
-
-		if (curr != null) {
-			curr.next = root.next;
-			if (next != null)
-				root.next = reverse1k(next, k);
-			return curr;
-		} else
-			return root;
-
 	}
 
 	private static Node<Integer> addLists(Node<Integer> head1,
@@ -384,6 +319,53 @@ class ReverseKLL {
 		}
 	}
 
+	// Push all the odds behind the list
+	// 1-2-3-4-5-6-7-8-1-2-3-4-5-6-7-8-null
+	// 2-2-4-3-5-7
+	/*
+	 * System.out.print("curr->"); System.out.println(curr.data);
+	 * System.out.print("prev->"); System.out.println(prev.data);
+	 * System.out.print("next->"); System.out.println(next == null ? -1 :
+	 * next.data); System.out.print("head->"); printList(head);
+	 * System.out.print("oddhead->"); printList(oddHead);
+	 * 
+	 * System.out.println("-----------");
+	 */
+	private static Node pushOddBack(Node head) {
+		if (head == null || head.next == null)
+			return head;
+		Node oddHead = null, oddTail = null; //head and tail of new linked list which contains odd no.
+		while (head.data % 2 != 0) {
+			Node newHead = head.next;
+			if (oddHead == null) {
+				oddHead = head;
+				oddTail = head;
+			} else {
+				oddTail.next = head;
+				oddTail = head;
+			}
+			oddTail.next = null;
+			head = newHead;
+		}
+		Node curr = head, prev = head, next = null;
+		while (curr != null) {
+			next = curr.next;
+			if (curr.data % 2 != 0) {
+				oddTail.next = curr;
+				oddTail = curr;
+				oddTail.next = null;
+				prev.next = next;
+				curr = next;
+			} else {
+				prev = curr;
+				curr = next;
+			}
+		}
+		prev.next = oddHead; // appending odd list to the end
+		return head;
+
+	}
+
 	// utility methods
 	// push a node in the ll
 	private static void push(int data) {
@@ -395,14 +377,17 @@ class ReverseKLL {
 
 	public static void printList(Node node) {
 		while (node != null) {
-			System.out.println(node.data);
+			System.out.print(node.data + "->");
 			node = node.next;
 		}
+		System.out.println();
 	}
 
 	public static void main(String args[]) {
 		ReverseKLL kll = new ReverseKLL();
 		kll.push(8);
+		kll.push(8);
+		kll.push(8);
 		kll.push(7);
 		kll.push(6);
 		kll.push(5);
@@ -418,12 +403,16 @@ class ReverseKLL {
 		kll.push(3);
 		kll.push(2);
 		kll.push(1);
+		kll.push(3);
+		kll.push(3);
+		kll.push(3);
 
 		kll.printList(head);
 		// head = kll.reverse(head, 3);
 		// head = kll.reverse1k(head, 5);
-		//head = kll.recursiveReverse(head);
-		head = kll.iterativeReverse(head);
+		// head = kll.recursiveReverse(head);
+		// head = kll.iterativeReverse(head);
+		head = kll.pushOddBack(head);
 		System.out.println("===========================");
 		kll.printList(head);
 

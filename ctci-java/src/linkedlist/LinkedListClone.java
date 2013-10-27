@@ -22,8 +22,6 @@ class ListNode {
 		data = i;
 	}
 }
-
-public class RandList extends 
 public class LinkedListClone {
 
 	public static void main(String[] args) {

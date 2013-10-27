@@ -2,16 +2,18 @@ package AmazonSets;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
 public class NGE {
 	static Stack<Integer> stack = new Stack<Integer>();
-	static List<Integer> arr = Arrays.asList(1, 2, 4, 3, 9, 4, 19, 21, 3, 7);
+	static List<Integer> arr = Arrays.asList(1, 2, 4, 3, 9,6,7,8,9, 8, 19, 21,10, 20, 7,10);
 
 	public static void main(String[] args) {
 		//System.out.println(coinSum(12));
-		recompose();
+		//recompose();
+		System.out.println(nge());
 	}
 	
 	static int max= Integer.MIN_VALUE;
@@ -86,26 +88,20 @@ private static void recompose(){
 	
 	
 }
-	
+	//(1, 2, 4, 3, 9, 4, 19, 21, 3, 7);
 	// 1,2,4,3,9,4,19,21,3,7
-	private static ArrayList<Integer> nge() {
-		ArrayList<Integer> result = new ArrayList<Integer>();
+	 static ArrayList<Integer> nge() {
+		ArrayList<Integer> result = new ArrayList<Integer>(Collections.nCopies(arr.size(), 0));
 		int i = 0;
-		while (true) {
-			stack.push(arr.get(i));
-
+		while (i<arr.size()-1) {
+			stack.push(i);
 			Integer next = arr.get(++i);
-
-			while (true) {
-				if (!stack.empty() && next > stack.peek())
-					arr.set(arr.indexOf(stack.pop()), next);
-				else {
-					stack.push(next);
-				}
-
+			System.out.println(arr.get(i-1)+"-"+next);
+				while(!stack.empty() && next > arr.get(stack.peek()))
+					result.set(stack.pop(), next);
 			}
-
+        return result;
 		}
 
 	}
-}
+
